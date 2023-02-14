@@ -41,3 +41,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: InGamePlay
+    uniqueID: 2024232515
+    locked: 0
+  - name: InUI
+    uniqueID: 3409307227
+    locked: 0
