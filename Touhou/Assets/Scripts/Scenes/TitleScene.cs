@@ -6,59 +6,77 @@ using UnityEngine.UI;
 
 public class TitleScene : BaseScene
 {
+    int selectNumber = default;
+    public GameObject start;
+    public GameObject option;
+    public GameObject quit;
+
     protected override void Init()
     { 
         base.Init();
 
         SceneType = Define.Scene.TitleScene;
 
-        List<int> selectUI = new List<int>();
-
+        selectNumber = 1;
+        start.SetActive(true);
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            Managers.Scene.LoadScene(Define.Scene.GamePlayScene);
+            if (selectNumber == 1) { selectNumber = 3; }
+            else { selectNumber--; }
+            ControlSwitch(selectNumber);
         }
-    }
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            if (selectNumber == 3) { selectNumber = 1; }
+            else { selectNumber++; }
+            ControlSwitch(selectNumber);
+        }
 
-    public void OnClickStart()
-    {
-        Managers.Scene.LoadScene(Define.Scene.GamePlayScene);
-    }
 
-    public void OnClickEnd()
-    {
-        Util.QuitThisGame();
-    }
-    
+
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            switch (selectNumber)
+            {
+                case 1:
+                    Managers.Scene.LoadScene(Define.Scene.LevelSelectScene);
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    Util.QuitThisGame();
+                    break;
+                default:
+                    break;
+            }
+        }
+    }    
     public override void Clear()
     {
-        Debug.Log("TitleScene Clear!");
+        Util.Log("TitleScene Clear!");
     }
 
-    private float parameter = 0f;
-
-    IEnumerator updateTimer()
+    void ControlSwitch(int num)
     {
-        GameObject guage_Bar = Util.FindChild(GameObject.Find("Game_Objs"), "Loading_Guage_Bar", true);
-        Image guage_Bar_img = guage_Bar.GetComponentMust<Image>();
-        while (parameter < 1)
-        {
-            guage_Bar_img.fillAmount = parameter;
-            // { 시간이 1초씩 흘러가는 로직
-            yield return new WaitForSeconds(1.0f);
-            // } 시간이 1초씩 흘러가는 로직
-            if (parameter < 1.0f)
-            {
-                parameter += 0.0001f;
-            }
-            else
-            {
-                Managers.Scene.LoadScene(Define.Scene.GamePlayScene);
-            }
-        }
+
+
+        bool _start = false;
+        bool _option = false;
+        bool _quit = false;
+
+        if (num == 1){ _start = true; }
+
+        if (num == 2) { _option = true; }
+
+        if (num == 3) { _quit = true; }
+
+        start.SetActive(_start);
+        option.SetActive(_option);
+        quit.SetActive(_quit);
+       
     }
 }

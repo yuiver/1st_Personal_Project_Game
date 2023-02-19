@@ -7,7 +7,10 @@ public class Define
     public enum Scene
     { 
         Unknown,
+        LoadingScene,
         TitleScene,
+        LevelSelectScene,
+        CharaSelectScene,
         GamePlayScene,
     }
 
@@ -21,7 +24,6 @@ public class Define
     {
         Click,
     }
-
     public enum MouseEvent
     { 
         Press,
@@ -49,6 +51,6 @@ public class Define
     public const string OBJ_POOL_INST_NAME = "@Pool";
     public const string ROOT_INST_NAME = "{0}_Root";
     public const string ENEMY_PREFAB_PATH = "enemy";
-    public const string MY_BULLET_PREFAB_PATH = "myBullet";
+    public const string PLAYER_BULLET_PREFAB_PATH = "playerBullet";
     public const string BULLET_PREFAB_PATH = "bullet";
 }
