@@ -17,7 +17,7 @@ public class Define
     public enum Sound
     { 
         Bgm,
-        Effect,
+        SE,
         MaxCount,
     }
     public enum UIEvent
@@ -29,10 +29,6 @@ public class Define
         Press,
         Click,
     } 
-    public enum CameraMode
-    { 
-        QuaterView,
-    }
     public enum PlayerAttack
     {
         Missile,
@@ -41,10 +37,12 @@ public class Define
     }
     public enum EnemyAttack
     {
-        Square,
-        Arrow,
+        Straight,
+        GuidedPos,
         Circle,
+        CircularSector,
     }
+
 
     public const int CAN_RETRY_COUNT = 3;
 
@@ -52,5 +50,7 @@ public class Define
     public const string ROOT_INST_NAME = "{0}_Root";
     public const string ENEMY_PREFAB_PATH = "enemy";
     public const string PLAYER_BULLET_PREFAB_PATH = "playerBullet";
+    public const string PLAYER_GUIDED_BULLET_PREFAB_PATH = "playerGuidedBullet";
+    public const string ENEMY_BULLET_PREFAB_PATH = "enemyBullet";
     public const string BULLET_PREFAB_PATH = "bullet";
 }

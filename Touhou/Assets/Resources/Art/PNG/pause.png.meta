@@ -129,7 +129,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: pause_0
+      name: stopGame
       rect:
         serializedVersion: 2
         x: 11
@@ -234,7 +234,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pause_5
+      name: gameContinue
       rect:
         serializedVersion: 2
         x: 1
@@ -255,7 +255,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pause_6
+      name: reallyMenu
       rect:
         serializedVersion: 2
         x: 165
@@ -276,7 +276,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pause_7
+      name: goTitleScene
       rect:
         serializedVersion: 2
         x: 10
@@ -297,7 +297,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pause_8
+      name: reStartGame
       rect:
         serializedVersion: 2
         x: 2
@@ -360,7 +360,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pause_11
+      name: no
       rect:
         serializedVersion: 2
         x: 175
@@ -402,7 +402,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pause_13
+      name: yes
       rect:
         serializedVersion: 2
         x: 122
@@ -643,31 +643,31 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      stopGame: -1808662615
       pause_24: -1593342213
+      gameContinue: -1906131370
       pause_18: -507101352
       pause_17: 1235278939
       Normal_Txt: 1983234056
       HardTxt: -408859854
-      pause_7: 579397069
       pause_25: -902652847
       pause_12: 1333442080
-      pause_8: 855859002
+      reallyMenu: 1861033071
       pause_23: 1072346635
-      pause_6: 1861033071
+      goTitleScene: 579397069
       pause_9: 801880726
+      pause_15: 545263344
       pause_14: -1827602414
       pause_16: -1439156280
-      pause_15: 545263344
+      EasyTxt: 912271342
       pause_10: -941611870
       pause_22: 1838225326
-      EasyTxt: 912271342
-      pause_11: -754797617
+      no: -754797617
+      yes: -1661194174
       LunaticTxt: 320080776
-      pause_13: -1661194174
       pause_19: 1066667489
-      pause_0: -1808662615
-      pause_5: -1906131370
       pause_20: -864909723
+      reStartGame: 855859002
       pause_21: -259558308
   spritePackingTag: 
   pSDRemoveMatte: 0

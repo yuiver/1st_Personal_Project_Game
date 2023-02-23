@@ -26,6 +26,8 @@ public class Managers : MonoBehaviour
     public static SoundManager Sound { get { return Instance._sound; } }
     public static UIManager UI { get { return Instance._ui; } }
 
+    public static bool soundClear = default;
+
     void Start()
     {
         Init();
@@ -61,8 +63,13 @@ public class Managers : MonoBehaviour
     // 이 함수는 SceneManagerEx에서 씬이 넘어가는 경우에 호출하게 된다.
     public static void Clear()
     {
+        if (soundClear == true)
+        {
+            Sound.Clear();
+        }
+
+
         Input.Clear();
-        Sound.Clear();
         Scene.Clear();
         UI.Clear();
         Pool.Clear();

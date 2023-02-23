@@ -28,17 +28,17 @@ public class UIController : MonoBehaviour
     public UnityEvent onTimeChanged;
 
 
-    private int life;
-    private int spell;
+    public static int life;
+    public static int spell;
 
     public static int power;
 
-    private int highScore;
-    private int score;
-    private int graze;
-    private int pointItem;
-    private int time;
-    private float FPS;
+    public static int highScore;
+    public static int score;
+    public static int graze;
+    public static int pointItem;
+    public static int time;
+    public static float FPS;
 
 
     private const byte SPELL_MAX = 8;
@@ -52,33 +52,39 @@ public class UIController : MonoBehaviour
     void Start()
     {
         // 초기값 설정
+        score = 0;
+
         life = 3;
         spell = 3;
-        score = 0;
-        power = 0;
+
+        power = 128;
         graze = 0;
+        pointItem = 0;
         time = 0;
         // UI 초기화
         UpdateHighScoreText();
         UpdateScoreText();
         UpdatePowerText();
+        UpdatePowerImage();
         UpdateGrazeText();
         UpdatePointItemText();
         UpdateTimeText();
+
         playerLifeGauge.GetComponent<Image>();
         playerPowerGauge.GetComponent<Image>();
         playerSpellGauge.GetComponent<Image>();
+
+
     }
     private void Update()
     {
-        lifeGuageAmount = life / (float)LIFE_MAX;
-        playerLifeGauge.fillAmount = lifeGuageAmount;
-
-        spellGuageAmount = spell / (float)SPELL_MAX;
-        playerSpellGauge.fillAmount = spellGuageAmount;
-
-        powerGuageAmount = power / (float)POWER_MAX;
-        playerPowerGauge.fillAmount = powerGuageAmount;
+        UpdateScoreText();
+        UpdatePowerText();
+        UpdatePowerImage();
+        UpdateGrazeText();
+        UpdatePointItemText();
+        UpdateTimeText();
+        //0.5초 대기
     }
 
     // 변수의 값을 변경하고 이벤트를 발생시킵니다.
@@ -94,38 +100,60 @@ public class UIController : MonoBehaviour
     }
     public void SetPower(int value)
     {
-        spell = value;
+        power = value;
         onPowerChanged.Invoke();
     }
     public void SetGraze(int value)
     {
-        life = value;
+        graze = value;
         onGrazeChanged.Invoke();
     }
     public void SetPointItem(int value)
     {
-        life = value;
+        pointItem = value;
         onPointItemChanged.Invoke();
     }
     public void SetTime(int value)
     {
-        life = value;
+        time = value;
         onTimeChanged.Invoke();
     }
 
+
     // UI를 업데이트하는 메서드
+    private void UpdateLifeImage()
+    {
+        lifeGuageAmount = life / (float)LIFE_MAX;
+        playerLifeGauge.fillAmount = lifeGuageAmount;
+    }
+    private void UpdateSpellImage()
+    {
+        spellGuageAmount = spell / (float)SPELL_MAX;
+        playerSpellGauge.fillAmount = spellGuageAmount;
+    }
+    private void UpdatePowerImage()
+    {
+        powerGuageAmount = power / (float)POWER_MAX;
+        playerPowerGauge.fillAmount = powerGuageAmount;
+    }
     private void UpdateHighScoreText()
     {
         scoreText.text = string.Format("{0:D10}", highScore);
     }
     private void UpdateScoreText()
-    {
-        
+    { 
         scoreText.text = string.Format("{0:D10}",score);
     }
     private void UpdatePowerText()
     {
-        powerText.text = power.ToString();
+        if (power == 128)
+        {
+            powerText.text = "MAX";
+        }
+        else
+        {
+            powerText.text = power.ToString();
+        }
     }
     private void UpdateGrazeText()
     {
@@ -158,6 +186,7 @@ public class UIController : MonoBehaviour
     private void OnPowerChangedHandler()
     {
         UpdatePowerText();
+        UpdatePowerImage();
     }
     private void OnPointItemChangedHandler()
     {
@@ -172,6 +201,7 @@ public class UIController : MonoBehaviour
     // 이벤트 리스너 등록 및 해제
     private void OnEnable()
     {
+        
         onScoreChanged.AddListener(OnScoreChangedHandler);
         onHighScoreChanged.AddListener(OnHighScoreChangedHandler);
         onPowerChanged.AddListener(OnPowerChangedHandler);
@@ -187,5 +217,20 @@ public class UIController : MonoBehaviour
         onPowerChanged.RemoveListener(OnPowerChangedHandler);
         onGrazeChanged.RemoveListener(OnGrazeChangedHandler);
         onPointItemChanged.RemoveListener(OnPointItemChangedHandler);
+    }
+
+    IEnumerator ShootCoroutine()
+    {
+        while (true)
+        {
+            UpdateScoreText();
+            UpdatePowerText();
+            UpdatePowerImage();
+            UpdateGrazeText();
+            UpdatePointItemText();
+            UpdateTimeText();
+            //0.5초 대기
+            yield return new WaitForSeconds(0.1f);
+        }
     }
 }

@@ -23,6 +23,8 @@ public abstract class BaseScene : MonoBehaviour
         {
             Managers.Resource.Instantiate("UI/EventSystem").name = "@EventSystem"; 
         }
+
+        Time.timeScale = 1.0f;
     
     }
 

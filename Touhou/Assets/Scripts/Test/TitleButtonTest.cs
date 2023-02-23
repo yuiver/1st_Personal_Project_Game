@@ -4,24 +4,24 @@ using UnityEngine;
 
 public class TitleButtonTest : MonoBehaviour
 {
-    GameObject onObj = default;
-    GameObject offObj = default;
+    public List<GameObject> enemies;
 
-    // Start is called before the first frame update
-    void Start()
+    public GameObject GetClosestEnemy(Vector3 playerPos)
     {
-        offObj = gameObject.transform.GetChild(0).gameObject;
-        onObj = gameObject.transform.GetChild(1).gameObject;
-    }
+        float closestDistance = Mathf.Infinity;
+        GameObject closestEnemy = null;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+        foreach (GameObject enemy in enemies)
+        {
+            float distance = Vector3.Distance(playerPos, enemy.transform.position);
 
-    public void CheckOnOff(bool isOn)
-    {
-        onObj.SetActive(isOn);
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closestEnemy = enemy;
+            }
+        }
+
+        return closestEnemy;
     }
 }

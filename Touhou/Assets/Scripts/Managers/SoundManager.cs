@@ -36,6 +36,7 @@ public class SoundManager
     {
         foreach (AudioSource audioSource in _audioSources)
         {
+            //if(Util.GetActiveScene().name == Define.Scene.TitleScene)
             audioSource.clip = null;
             audioSource.Stop();
         }
@@ -44,14 +45,14 @@ public class SoundManager
 
 
     //랩핑해서 오디오 클립을 받는 버전
-    public void Play (string path, Define.Sound type = Define.Sound.Effect , float pitch = 1.0f)
+    public void Play (string path, Define.Sound type = Define.Sound.SE , float pitch = 1.0f)
     {
         AudioClip audioClip = GetOrAddAudioClip(path, type);
         Play(audioClip, type, pitch);
     }
 
     //DB에서 받을때는 경로로 받지만 그전까지 귀찮으니 오디오 클립으로 받는다.
-    public void Play(AudioClip audioClip, Define.Sound type = Define.Sound.Effect, float pitch = 1.0f)
+    public void Play(AudioClip audioClip, Define.Sound type = Define.Sound.SE, float pitch = 1.0f)
     {
 
 
@@ -74,18 +75,18 @@ public class SoundManager
         else
         {
 
-            AudioSource audioSource = _audioSources[(int)Define.Sound.Effect];
+            AudioSource audioSource = _audioSources[(int)Define.Sound.SE];
             audioSource.pitch = pitch;
             audioSource.PlayOneShot(audioClip);
         }
     }
 
-    AudioClip GetOrAddAudioClip(string path , Define.Sound type = Define.Sound.Effect)
+    AudioClip GetOrAddAudioClip(string path , Define.Sound type = Define.Sound.SE)
     {
         //사운드 경로가 생략되었다면 사운드 경로를 Resources/Sounds로 생성해준다!
-        if (path.Contains("Sounds/") == false)
+        if (path.Contains("Audio/") == false)
         {
-            path = $"Sounds/{path}";
+            path = $"Audio/{path}";
         }
 
         AudioClip audioClip = null;

@@ -7,7 +7,6 @@ public class LoadingScene : BaseScene
     protected override void Init()
     {
         base.Init();
-
         SceneType = Define.Scene.LoadingScene;
     }
 
@@ -24,5 +23,7 @@ public class LoadingScene : BaseScene
     private void nextScene()
     {
         Managers.Scene.LoadScene(Define.Scene.TitleScene);
+        Managers.soundClear = false;
+        Managers.Sound.Play("BGM/MainBgm", Define.Sound.Bgm);
     }
 }

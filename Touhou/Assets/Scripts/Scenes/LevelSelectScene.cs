@@ -31,12 +31,14 @@ public class LevelSelectScene : BaseScene
     {
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
+            Managers.Sound.Play("SE/se_select00");
             if (selectNumber == 1) { selectNumber = 4; }
             else { selectNumber--; }
             ControlSwitch(selectNumber);
         }
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
+            Managers.Sound.Play("SE/se_select00");
             if (selectNumber == 4) { selectNumber = 1; }
             else { selectNumber++; }
             ControlSwitch(selectNumber);
@@ -45,11 +47,13 @@ public class LevelSelectScene : BaseScene
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
+            Managers.Sound.Play("SE/se_ok00");
             level = selectNumber;
             Managers.Scene.LoadScene(Define.Scene.CharaSelectScene);
         }
         if (Input.GetKeyDown(KeyCode.X))
         {
+            Managers.Sound.Play("SE/se_cancel00");
             Managers.Scene.LoadScene(Define.Scene.TitleScene);
         }
     }

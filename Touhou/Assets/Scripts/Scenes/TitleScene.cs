@@ -14,7 +14,6 @@ public class TitleScene : BaseScene
     protected override void Init()
     { 
         base.Init();
-
         SceneType = Define.Scene.TitleScene;
 
         selectNumber = 1;
@@ -25,12 +24,14 @@ public class TitleScene : BaseScene
     {
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
+            Managers.Sound.Play("SE/se_select00");
             if (selectNumber == 1) { selectNumber = 3; }
             else { selectNumber--; }
             ControlSwitch(selectNumber);
         }
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
+            Managers.Sound.Play("SE/se_select00");
             if (selectNumber == 3) { selectNumber = 1; }
             else { selectNumber++; }
             ControlSwitch(selectNumber);
@@ -40,6 +41,7 @@ public class TitleScene : BaseScene
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
+            Managers.Sound.Play("SE/se_ok00");
             switch (selectNumber)
             {
                 case 1:
