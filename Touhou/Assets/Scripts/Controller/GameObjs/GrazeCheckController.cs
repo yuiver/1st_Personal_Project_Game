@@ -9,7 +9,7 @@ public class GrazeCheckController : MonoBehaviour
     {
         if (CompareTag("EnemyBullet"))
         {
-            UIController.graze++;
+            PlayerController.graze++;
         }
     }
 }

@@ -88,7 +88,7 @@ public class GamePlayScene : BaseScene
         enemyBulletPoolRoot.SetParent(parent_Tf, false);
         enemyBulletPoolRoot.name = $"@{Define.ENEMY_BULLET_PREFAB_PATH}_Obj";
 
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 1000; i++)
         {
             enemyBulletList.Add(Managers.Resource.Instantiate($"GameObjs/{Define.ENEMY_BULLET_PREFAB_PATH}", enemyBulletPoolRoot));
         }
@@ -249,11 +249,9 @@ public class GamePlayScene : BaseScene
     {
         while (true)
         {
-            if (UIController.power == 128) { }
-            else { UIController.power++; }
             InstanceEnemy(Vector2.right);
             //0.5초 대기
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(5.0f);
         }
     }
 

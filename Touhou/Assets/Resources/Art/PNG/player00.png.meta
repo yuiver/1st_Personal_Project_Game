@@ -678,9 +678,9 @@ TextureImporter:
       name: Bullet_Reimu02
       rect:
         serializedVersion: 2
-        x: 66
-        y: 132
-        width: 28
+        x: 22
+        y: 38
+        width: 104
         height: 24
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -895,9 +895,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Sarvent_Ran_Move_02: 31470814
-      Sarvent_Ran_Move_03: -1385562619
-      Sarvent_Ran_Move_01: -1437916486
+      Yukari_02: -1286240931
       Bullet_Yukari01: -1586066659
       EnemyDeathEffect: -1873118780
       Bullet_Reimu02: -712553466
@@ -919,14 +917,16 @@ TextureImporter:
       Yukari_Move_02: 850004568
       Bullet_Yukari02: -1257745462
       Yukari_01: -603035573
+      Sarvent_Ran_Move_03: -1385562619
       Reimu_Move_04: 584128763
       Reimu_Move_03: -756064750
       Yukari_Move_04: -964987272
       Yukari_Move_07: -1692864445
+      Sarvent_Ran_Move_01: -1437916486
       Reimu_04: -1921604000
-      Yukari_02: -1286240931
-      Reimu_Move_01: -455741056
       Yukari_Move_01: -36258838
+      Sarvent_Ran_Move_02: 31470814
+      Reimu_Move_01: -455741056
       Sarvent_Ran_02: 1004717408
       Bullet_Reimu01: 1906464346
       Reimu_Move_05: 1858054999

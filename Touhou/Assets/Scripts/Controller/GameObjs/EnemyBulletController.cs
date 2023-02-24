@@ -6,20 +6,32 @@ public class EnemyBulletController : MonoBehaviour
 {
     //난이도에 따라 속도 보정값을 추가한다.
     private float bulletSpeed = 0.5f;
+
     private Vector2 targetPos = default;
+    private Vector2 bulletPos = default;
+
+    Vector3 bulletDir = default;
+    Vector3 norDir = default;
 
     // Start is called before the first frame update
+    private void Awake()
+    {
+    }
+
     void Start()
     {
-        targetPos = PlayerController.playerPosition;
     }
 
     void OnEnable()
     {
-        //Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        targetPos = PlayerController.playerPosition;
+        bulletPos = gameObject.transform.localPosition;
 
-        //Vector2 direction = new Vector2(0f, 1f);
-        //rb.velocity = direction * bulletSpeed * Time.fixedDeltaTime;
+        bulletDir = new Vector3(targetPos.x - bulletPos.x, targetPos.y - bulletPos.y, 0f);
+        norDir = bulletDir.normalized;
+
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        rb.velocity = norDir * bulletSpeed * Time.fixedDeltaTime;
     }
 
     // Update is called once per frame

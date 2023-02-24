@@ -1,11 +1,62 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public class PlayerController : MonoBehaviour
 {
+    #region Player have Status
+
+    [SerializeField]
+    private Image playerLifeGauge;
+    [SerializeField]
+    private Image playerSpellGauge;
+    [SerializeField]
+    private Image playerPowerGauge;
+
+    [SerializeField]
+    private TMP_Text highScoreText;
+    [SerializeField]
+    private TMP_Text scoreText;
+    [SerializeField]
+    private TMP_Text powerText;
+    [SerializeField]
+    private TMP_Text grazeText;
+    [SerializeField]
+    private TMP_Text pointItemText;
+    //이새끼는 진짜 뭔지 모름 하수인 죽일때 나오는 분홍색 무언가로 체크하는거 같은데 잘 모르겠다.
+    [SerializeField]
+    private TMP_Text timeText;
+    [SerializeField]
+    private TMP_Text FPS_Text;
+
+
+    private const int SPELL_MAX = 8;
+    private const int LIFE_MAX = 8;
+    private const int POWER_MAX = 128;
+
+    private int life;
+    private int spell;
+    private int power;
+    private int highScore;
+    private int pointItem;
+    private int time;
+    public static int score;
+    public static int graze;
+
+    private float powerGuageAmount = default;
+    private float lifeGuageAmount = default;
+    private float spellGuageAmount = default;
+
+    public Image gameLevel;
+    public int levelnum = default;
+    public Sprite[] levelSprite = new Sprite[4];
+    #endregion
+
+
     int death = default;
 
     [SerializeField]
@@ -14,7 +65,7 @@ public class PlayerController : MonoBehaviour
     private float bulletSpeed = 12.0f;
     private int bulletCountPerSide = default; // 한 쪽에 발사할 탄환 수
     private int guidedBulletCountPerSide = default; // 한 쪽에 발사할 탄환 수
-    private float angleBetweenBullets = 10f; // 탄환 간의 각도 차이
+    private float angleBetweenBullets = 5f; // 탄환 간의 각도 차이
 
     private GameObject playerCharaA = default;
     private GameObject playerCharaB = default;
@@ -23,31 +74,54 @@ public class PlayerController : MonoBehaviour
     public Animator anim;
     public static Vector2 playerPosition = default;
 
-    private bool isShooting = default;
-    private bool isOtherChara = default;
+    private bool isShooting = false;
+    private bool isOtherChara = false;
 
     //오브젝트를 생성해줄 부모의 위치를 잡는 객체를 캐싱한다.
     GameObject gameObjParent = default;
     //오브젝트를 생성해줄 부모의 위치 객체의 Transfrom을 캐싱한다.
     Transform parent_Tf = default;
-
     public Transform playerBulletPoolRoot { get; set; }
     public Transform playerGuidedBulletPoolRoot { get; set; }
 
 
-    void Start()
+    void Awake()
     {
+        levelnum = LevelSelectScene.level - 1;
+        if (levelnum >= 0)
+        {
+            gameLevel.sprite = levelSprite[levelnum];
+        }
+        #region Reset Status
+        playerLifeGauge.GetComponent<Image>();
+        playerPowerGauge.GetComponent<Image>();
+        playerSpellGauge.GetComponent<Image>();
+        // 초기값 설정
+        score = 0;
 
-        death = 0;
+        life = 3;
+        spell = 3;
 
-        playerCharaA = gameObject.FindChildObj("");
-        playerCharaB = gameObject.FindChildObj("");
+        power = 128;
+        graze = 0;
+        pointItem = 0;
+        time = 0;
+        #endregion
+        #region Update Status Text and Image
+        UpdateLifeImage();
+        UpdateSpellImage();
+        UpdatePower();
+        UpdateHighScoreText();
+        UpdateScoreText();
+        UpdateGrazeText();
+        UpdatePointItemText();
+        UpdateTimeText();
+        #endregion
 
-        //Z키를 누르면 총알이 발사되게 하는 Bool
-        isShooting = false;
-        //Shift를 누르면 캐릭터의 총알이 변경되게 하는 Bool
-        isOtherChara = false;
+        //death = 0;
 
+
+        #region make Player Bullet Obj
         //총알을 풀링하는 코드
         gameObjParent = GameObject.Find("GameObjs");
         parent_Tf = gameObjParent.gameObject.transform;
@@ -82,6 +156,7 @@ public class PlayerController : MonoBehaviour
         {
             Managers.Resource.Destroy(playerGuidedBulletObj);
         }
+        #endregion
 
     }
 
@@ -93,7 +168,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         #region 플레이어의 파워를 체크해서 몇발의 탄환을 발사할지 결정하는 if
-        if (UIController.power < 45)
+        if (power < 45)
         {
             bulletCountPerSide = 0;
         }
@@ -102,11 +177,11 @@ public class PlayerController : MonoBehaviour
             bulletCountPerSide = 1;
         }
         //서브 탄환 
-        if (UIController.power < 25)
+        if (power < 25)
         {
             guidedBulletCountPerSide = 0;
         }
-        else if (UIController.power < 128)
+        else if (power < 128)
         {
             guidedBulletCountPerSide = 1;
         }
@@ -116,7 +191,7 @@ public class PlayerController : MonoBehaviour
         }
         #endregion
 
-        #region 십자키를 눌러서 이동하는 방식
+        #region 키를 눌러서 조작하는 방식
         //플레이어의 현재위치
         playerPosition = new Vector2(gameObject.transform.localPosition.x, gameObject.transform.localPosition.y);
 
@@ -151,8 +226,6 @@ public class PlayerController : MonoBehaviour
             anim.SetBool("isMoving", false);
             gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
         }
-        #endregion 
-
 
         // Z 키를 누르면 발사 시작
         if (Input.GetKeyDown(KeyCode.Z))
@@ -183,10 +256,69 @@ public class PlayerController : MonoBehaviour
         {
             speed = speed * 2f;
         }
+        #endregion
 
+        #region Update Status Text and Image
+        UpdateLifeImage();
+        UpdateSpellImage();
+        UpdatePower();
+        UpdateHighScoreText();
+        UpdateScoreText();
+        UpdateGrazeText();
+        UpdatePointItemText();
+        UpdateTimeText();
+        #endregion
     }
 
-    private void Deathcheck()
+    #region Status Update method
+    private void UpdateLifeImage()
+    {
+        lifeGuageAmount = life / (float)LIFE_MAX;
+        playerLifeGauge.fillAmount = lifeGuageAmount;
+    }
+    private void UpdateSpellImage()
+    {
+        spellGuageAmount = spell / (float)SPELL_MAX;
+        playerSpellGauge.fillAmount = spellGuageAmount;
+    }
+    private void UpdatePower()
+    {
+        if (power == 128)
+        {
+            powerText.text = "MAX";
+        }
+        else
+        {
+            powerText.text = power.ToString();
+        }
+        powerGuageAmount = power / (float)POWER_MAX;
+        playerPowerGauge.fillAmount = powerGuageAmount;
+    }
+    private void UpdateHighScoreText()
+    {
+        scoreText.text = string.Format("{0:D10}", highScore);
+    }
+    private void UpdateScoreText()
+    {
+        scoreText.text = string.Format("{0:D10}", score);
+    }
+    private void UpdateGrazeText()
+    {
+        grazeText.text = graze.ToString();
+    }
+    private void UpdatePointItemText()
+    {
+        pointItemText.text = pointItem.ToString();
+    }
+    private void UpdateTimeText()
+    {
+        timeText.text = time.ToString();
+    }
+    #endregion
+
+
+
+    private void GameOver()
     {
         death++;
     }
@@ -194,7 +326,9 @@ public class PlayerController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (gameObject.CompareTag("EnemyBullet"))
-        { }
+        {
+            //플레이어가 사망시 발생하게 될 무언가
+        }
     }
 
     IEnumerator ShootCoroutine()
@@ -211,7 +345,7 @@ public class PlayerController : MonoBehaviour
                 yield return new WaitForSeconds(0.1f);
             }
         }
-    #region 5way 이런식으로 규칙적 탄막을 형성가능
+    #region Xway Bullet
     void ShootBullets()
     {
         // 중앙에 있는 탄환 발사
@@ -258,6 +392,7 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 
+    #region Shoot Player Bullet
     //벨로시티로 발사하는 탄환
     void ShootBullet(Vector2 direction)
     {
@@ -281,6 +416,7 @@ public class PlayerController : MonoBehaviour
         Rigidbody2D rb = go.GetComponent<Rigidbody2D>();
         rb.velocity = direction * bulletSpeed;
     }
+    #endregion
 
 
 

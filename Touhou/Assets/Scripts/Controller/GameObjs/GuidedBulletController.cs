@@ -6,10 +6,12 @@ using UnityEngine;
 public class GuidedBulletController : MonoBehaviour
 {
 
-    public GameObject enemy;
     private GameObject bullet;
+    public GameObject enemy;
 
-    float speed = 100.0f;
+    private bool targetEnemyDead = false;
+
+    float speed = 30.0f;
     Vector3 bulletDir;
     Vector3 norDir;
 
@@ -24,8 +26,6 @@ public class GuidedBulletController : MonoBehaviour
         foreach (GameObject enemy in GamePlayScene.enemyList)
         {
             float distance = Vector3.Distance(bulletPosition, enemy.transform.position);
-
-            if (distance > 600.0f) { continue; }
 
             if (distance < closestDistance)
             {
@@ -50,30 +50,37 @@ public class GuidedBulletController : MonoBehaviour
     void Update()
     {
         bulletPosition = gameObject.transform.position;
-        targetEnemy = GetClosestEnemy(bulletPosition);
+
+        if (targetEnemyDead == false)
+        {
+            targetEnemy = GetClosestEnemy(bulletPosition);
+        }
 
         //유도탄
         if (targetEnemy != null)
         {
+            float discheck = 0;
+
             bulletDir = new Vector3(targetEnemy.transform.position.x - bullet.transform.position.x, targetEnemy.transform.position.y - bullet.transform.position.y, 0f);
             norDir = bulletDir.normalized;
-            bullet.transform.Translate(norDir * Time.deltaTime * speed);
+            discheck = Vector3.Distance(targetEnemy.transform.position, bullet.transform.position);
+            if (discheck < 8.0f)
+            { bullet.transform.Translate(norDir * Time.deltaTime * speed); }
         }
-        //else { bullet.transform.Translate(Vector2.right * speed); }
 
-        if (gameObject.transform.localPosition.x >= 250.0f)
+        if (gameObject.transform.localPosition.x >= 300.0f)
         {
             OverScreen();
         }
-        else if (gameObject.transform.localPosition.x <= -600.0f)
+        else if (gameObject.transform.localPosition.x <= -650.0f)
         {
             OverScreen();
         }
-        if (gameObject.transform.localPosition.y >= 450.0f)
+        if (gameObject.transform.localPosition.y >= 500.0f)
         {
             OverScreen();
         }
-        else if (gameObject.transform.localPosition.y <= -450.0f)
+        else if (gameObject.transform.localPosition.y <= -500.0f)
         {
             OverScreen();
         }
