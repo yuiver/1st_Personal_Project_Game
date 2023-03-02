@@ -23,7 +23,6 @@ public class DataManager
     public void Init()
     {
         StatDict = LoadJson<StatData, int, Stat>("StatData").MakeDict();
-        Util.Log(StatDict[1]);
     }
 
     Loader LoadJson<Loader, key, Value>(string path) where Loader : ILoader<key, Value>

@@ -59,7 +59,6 @@ public class CharaSelectScene : BaseScene
     }
     public override void Clear()
     {
-        Debug.Log("CharaSelectScene Clear!");
     }
 
     void ControlSwitch(int num)

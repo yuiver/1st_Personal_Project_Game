@@ -1,8 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 using UnityEngine.SceneManagement;
+using static UnityEngine.GraphicsBuffer;
 
 public static partial class Util
 {
@@ -136,4 +139,39 @@ public static partial class Util
         GameObject newObj = new GameObject(objName);
         return newObj.AddComponent<T>();
     }       // CreateObj()
+
+    public static void ImageAlphaChange(GameObject target, float alphaParamMaxIs1)
+    {
+        Image image = target.GetComponent<Image>();
+        image.color = new Color(image.color.r, image.color.g, image.color.b, alphaParamMaxIs1);
+    }
+
+    public static IEnumerator ImageAlphaChangeDelayDown(GameObject target)
+    {
+        yield return new WaitForSeconds(0.3f);
+        ImageAlphaChange(target, 0.8f);
+        yield return new WaitForSeconds(0.3f);
+        ImageAlphaChange(target, 0.6f);
+        yield return new WaitForSeconds(0.3f);
+        ImageAlphaChange(target, 0.4f);
+        yield return new WaitForSeconds(0.3f);
+        ImageAlphaChange(target, 0.2f);
+        yield return new WaitForSeconds(0.3f);
+        ImageAlphaChange(target, 0.0f);
+
+    }
+    public static IEnumerator ImageAlphaChangeDelayUp(GameObject target)
+    {
+        yield return new WaitForSeconds(0.3f);
+        ImageAlphaChange(target, 0.2f);
+        yield return new WaitForSeconds(0.3f);
+        ImageAlphaChange(target, 0.4f);
+        yield return new WaitForSeconds(0.3f);
+        ImageAlphaChange(target, 0.6f);
+        yield return new WaitForSeconds(0.3f);
+        ImageAlphaChange(target, 0.8f);
+        yield return new WaitForSeconds(0.3f);
+        ImageAlphaChange(target, 1.0f);
+
+    }
 }

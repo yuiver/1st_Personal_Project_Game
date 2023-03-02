@@ -59,7 +59,6 @@ public class TitleScene : BaseScene
     }    
     public override void Clear()
     {
-        Util.Log("TitleScene Clear!");
     }
 
     void ControlSwitch(int num)

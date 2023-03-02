@@ -1,74 +1,63 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class EnemyBulletController : MonoBehaviour
 {
-    //난이도에 따라 속도 보정값을 추가한다.
-    private float bulletSpeed = 0.5f;
+    
 
-    private Vector2 targetPos = default;
-    private Vector2 bulletPos = default;
-
-    Vector3 bulletDir = default;
-    Vector3 norDir = default;
-
-    // Start is called before the first frame update
-    private void Awake()
-    {
-    }
-
-    void Start()
-    {
-    }
-
-    void OnEnable()
-    {
-        targetPos = PlayerController.playerPosition;
-        bulletPos = gameObject.transform.localPosition;
-
-        bulletDir = new Vector3(targetPos.x - bulletPos.x, targetPos.y - bulletPos.y, 0f);
-        norDir = bulletDir.normalized;
-
-        Rigidbody2D rb = GetComponent<Rigidbody2D>();
-        rb.velocity = norDir * bulletSpeed * Time.fixedDeltaTime;
-    }
-
-    // Update is called once per frame
     void Update()
     {
-
-        this.gameObject.transform.Translate(Vector2.right * bulletSpeed * Time.fixedDeltaTime);
-
-
-        if (gameObject.transform.localPosition.x >= 250.0f)
+        if (gameObject.transform.localPosition.x >= Define.maxDistX)
         {
             OverScreen();
         }
-        else if (gameObject.transform.localPosition.x <= -600.0f)
+        else if (gameObject.transform.localPosition.x <= Define.minDistX)
         {
             OverScreen();
         }
-        if (gameObject.transform.localPosition.y >= 450.0f)
+        if (gameObject.transform.localPosition.y >= Define.maxDistY)
         {
             OverScreen();
         }
-        else if (gameObject.transform.localPosition.y <= -450.0f)
+        else if (gameObject.transform.localPosition.y <= Define.minDistY)
         {
             OverScreen();
         }
+        //if (PlayerController.playerHitOn == true)
+        //{
+        //    PlayerController.playerHitOn = false;
+        //    StartCoroutine(HitAndChangeRgb(gameObject));
+        //}
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
+            gameObject.transform.position = new Vector3(0, 0, 0);
             Managers.Resource.Destroy(gameObject);
+        }
+        else if (collision.CompareTag("Spell"))
+        {
+            gameObject.transform.position = new Vector3(0, 0, 0);
+            OverScreen();
         }
     }
 
     void OverScreen()
     {
+        gameObject.transform.position = new Vector3(0, 0, 0);
         Managers.Resource.Destroy(gameObject);
     }
+
+    //IEnumerator HitAndChangeRgb(GameObject Target)
+    //{
+    //    Image image = Target.GetComponent<Image>();
+    //    image.color = new Color(255.0f, 0.0f, 0.0f, 1.0f);
+    //    yield return new WaitForSeconds(1.0f);
+    //    image.color = new Color(255.0f, 255.0f, 255.0f, 1.0f);
+    //}
 }

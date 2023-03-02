@@ -59,7 +59,6 @@ public class LevelSelectScene : BaseScene
     }
     public override void Clear()
     {
-        Util.Log("LevelSelectScene Clear!");
     }
 
     void ControlSwitch(int num)

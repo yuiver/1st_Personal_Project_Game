@@ -9,7 +9,7 @@ public static partial class Util
     public static void Log(object message)
     {
 #if DEBUG_MODE
-        Debug.Log(message);
+         Debug.Log(message);
 #endif      // DEBUG_MODE
     }       // Log()
 

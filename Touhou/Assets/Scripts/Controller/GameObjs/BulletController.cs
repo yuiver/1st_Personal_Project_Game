@@ -40,12 +40,14 @@ public class BulletController : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
+            gameObject.transform.position = new Vector3(0, 0, 0);
             Managers.Resource.Destroy(gameObject);
         }
     }
 
     void OverScreen()
     {
+        gameObject.transform.position = new Vector3(0, 0, 0);
         Managers.Resource.Destroy(gameObject);
     }
 

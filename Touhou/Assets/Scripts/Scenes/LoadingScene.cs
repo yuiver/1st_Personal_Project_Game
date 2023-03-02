@@ -17,7 +17,6 @@ public class LoadingScene : BaseScene
 
     public override void Clear()
     {
-        Debug.Log("TitleScene Clear!");
     }
 
     private void nextScene()

@@ -8,6 +8,8 @@ TagManager:
   - PlayerBullet
   - EnemyBullet
   - Graze
+  - item
+  - Spell
   layers:
   - Default
   - TransparentFX
