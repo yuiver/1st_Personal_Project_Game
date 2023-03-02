@@ -39,7 +39,10 @@ public class ClearController : MonoBehaviour
     }
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            Util.QuitThisGame();
+        }
     }
 
     private void ClearLevel(int level)

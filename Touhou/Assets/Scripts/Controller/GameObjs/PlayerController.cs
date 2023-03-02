@@ -82,7 +82,7 @@ public class PlayerController : MonoBehaviour
     private bool isShooting = false;
     private bool isOtherChara = false;
     private bool immortalTime = false;
-    private bool hitTimeDelay = false;
+    public static bool hitTimeDelay = false;
     public static bool noLifeCheck = false;
     //public static bool playerHitOn;
 
@@ -112,7 +112,7 @@ public class PlayerController : MonoBehaviour
         life = 3;
         spell = 3;
 
-        power = 128;
+        power = 0;
         graze = 0;
         pointItem = 0;
         time = 0;

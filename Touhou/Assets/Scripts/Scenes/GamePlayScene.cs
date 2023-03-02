@@ -125,7 +125,7 @@ public class GamePlayScene : BaseScene
         enemyPoolRoot = new GameObject().transform;
         enemyPoolRoot.SetParent(parent_Tf,false);
         enemyPoolRoot.name = $"@{Define.ENEMY_PREFAB_PATH}_Obj";
-        for (int i = 0; i < 30; i++)
+        for (int i = 0; i < 100; i++)
         {
             enemyList.Add(Managers.Resource.Instantiate($"gameObjs/{Define.ENEMY_PREFAB_PATH}", enemyPoolRoot));
         }
@@ -138,7 +138,7 @@ public class GamePlayScene : BaseScene
         enemyBulletPoolRoot = new GameObject().transform;
         enemyBulletPoolRoot.SetParent(parent_Tf, false);
         enemyBulletPoolRoot.name = $"@{Define.ENEMY_BULLET_PREFAB_PATH}_Obj";
-        for (int i = 0; i < 1000; i++)
+        for (int i = 0; i < 1500; i++)
         {
             enemyBulletList.Add(Managers.Resource.Instantiate($"GameObjs/{Define.ENEMY_BULLET_PREFAB_PATH}", enemyBulletPoolRoot));
         }
@@ -151,7 +151,7 @@ public class GamePlayScene : BaseScene
         powerItemPoolRoot = new GameObject().transform;
         powerItemPoolRoot.SetParent(parent_Tf, false);
         powerItemPoolRoot.name = $"@{Define.ITEM_POWER}_Obj";
-        for (int i = 0; i < 50; i++)
+        for (int i = 0; i < 150; i++)
         {
             powerItemList.Add(Managers.Resource.Instantiate($"GameObjs/{Define.ITEM_POWER}", powerItemPoolRoot));
         }
@@ -164,7 +164,7 @@ public class GamePlayScene : BaseScene
         pointItemPoolRoot = new GameObject().transform;
         pointItemPoolRoot.SetParent(parent_Tf, false);
         pointItemPoolRoot.name = $"@{Define.ITEM_POINT}_Obj";
-        for (int i = 0; i < 50; i++)
+        for (int i = 0; i < 150; i++)
         {
             pointItemList.Add(Managers.Resource.Instantiate($"GameObjs/{Define.ITEM_POINT}", pointItemPoolRoot));
         }
@@ -775,6 +775,7 @@ public class GamePlayScene : BaseScene
         Time.timeScale = 1;
         retryMenu.SetActive(false);
         PlayerController.noLifeCheck = false;
+        PlayerController.hitTimeDelay = false;
         retryCount++;
     }
     void GameOver()
@@ -786,6 +787,7 @@ public class GamePlayScene : BaseScene
     private IEnumerator BossClear()
     {
         yield return new WaitForSeconds(5.0f);
+        Time.timeScale = 0;
         stageClear.SetActive(true);
     }
 

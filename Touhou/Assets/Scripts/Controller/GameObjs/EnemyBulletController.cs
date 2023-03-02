@@ -31,6 +31,10 @@ public class EnemyBulletController : MonoBehaviour
         //    PlayerController.playerHitOn = false;
         //    StartCoroutine(HitAndChangeRgb(gameObject));
         //}
+        if (Stage1Boss.bossHp <= 0 && Stage1Boss.bossOn == true)
+        {
+            OverScreen();
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

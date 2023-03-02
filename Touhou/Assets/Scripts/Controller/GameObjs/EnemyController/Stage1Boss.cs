@@ -7,11 +7,13 @@ public class Stage1Boss : EnemyBase
     private Vector3 bossVector3 = default;
     Rigidbody2D rb = default;
     public static float bossHp = 30000;
+    public static bool bossOn = default;
 
     int level = LevelSelectScene.level;
 
     protected override void Awake()
     {
+        bossOn = true;
         bossHp = 30000;
         base.Awake();
         rb = gameObject.GetComponent<Rigidbody2D>();

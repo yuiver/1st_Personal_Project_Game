@@ -13,7 +13,22 @@ public class PointItem : ItemControllerBase
     // Update is called once per frame
     void Update()
     {
-        
+        if (gameObject.transform.localPosition.x >= Define.maxDistX)
+        {
+            OverScreen();
+        }
+        else if (gameObject.transform.localPosition.x <= Define.minDistX)
+        {
+            OverScreen();
+        }
+        if (gameObject.transform.localPosition.y >= Define.maxDistY)
+        {
+            OverScreen();
+        }
+        else if (gameObject.transform.localPosition.y <= Define.minDistY)
+        {
+            OverScreen();
+        }
     }
 
     protected override void OnTriggerEnter2D(Collider2D collision)

@@ -23,4 +23,9 @@ public class ItemControllerBase : MonoBehaviour
             Managers.Resource.Destroy(gameObject);
         }
     }
+
+    protected virtual void OverScreen()
+    {
+        Managers.Resource.Destroy(gameObject);
+    }
 }

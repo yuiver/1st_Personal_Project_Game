@@ -25,6 +25,8 @@ public class EnemyBase : MonoBehaviour
 
     protected virtual void Awake()
     {
+        enemyHp = 1;
+
         gameObjParent = GameObject.Find("GameObjs");
         parent_Tf = gameObjParent.gameObject.transform;
 
