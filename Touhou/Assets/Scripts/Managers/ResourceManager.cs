@@ -34,7 +34,9 @@ public class ResourceManager
 
         // 2.혹시 풀링된 애가 있을까? 오리지날이 풀러블 컴퍼넌트를 가지고 있다면
         if (original.GetComponent<Poolable>() != null)
+        { 
             return Managers.Pool.Pop(original, parent).gameObject;
+        }
 
         GameObject go = Object.Instantiate(original, parent);
         go.name = original.name;

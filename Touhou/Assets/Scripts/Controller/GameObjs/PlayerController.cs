@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
     private TMP_Text grazeText;
     [SerializeField]
     private TMP_Text pointItemText;
-    //이새끼는 진짜 뭔지 모름 하수인 죽일때 나오는 분홍색 무언가로 체크하는거 같은데 잘 모르겠다.
+    //이건 어떤걸 체크하는 로직인지 원본 게임에서 파악하지 못했다.
     [SerializeField]
     private TMP_Text timeText;
     [SerializeField]
@@ -60,7 +60,8 @@ public class PlayerController : MonoBehaviour
     public Sprite[] levelSprite = new Sprite[4];
     #endregion
 
-
+    private WaitForSeconds delay = new WaitForSeconds(0.1f);
+    private float fixedTime = default;
     private int death = default;
 
     [SerializeField]
@@ -117,18 +118,10 @@ public class PlayerController : MonoBehaviour
         pointItem = 0;
         time = 0;
         #endregion
-        #region Update Status Text and Image
-        UpdateLifeImage();
-        UpdateSpellImage();
-        UpdatePower();
-        UpdateHighScoreText();
-        UpdateScoreText();
-        UpdateGrazeText();
-        UpdatePointItemText();
-        UpdateTimeText();
-        #endregion
 
         //death = 0;
+
+        StartCoroutine(UpdateState());
 
 
         #region make Player Bullet Obj
@@ -279,6 +272,10 @@ public class PlayerController : MonoBehaviour
         UpdateTimeText();
         #endregion
     }
+    private void FixedUpdate()
+    {
+        fixedTime = Time.deltaTime;
+    }
 
     #region Status Update method
     private void UpdateLifeImage()
@@ -417,10 +414,10 @@ public class PlayerController : MonoBehaviour
         while (lastChance == false)
         {
             yield return null;
-            TimeChecker += Time.deltaTime;
+            TimeChecker += fixedTime;
 
             Time.timeScale = 0.1f;
-            if (spell > 0 && TimeChecker < 0.1f)
+            if (spell > 0 && TimeChecker < 2.0f)
             {
                 if (Input.GetKeyDown(KeyCode.X))
                 {
@@ -433,7 +430,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                if (TimeChecker > 0.1f)
+                if (TimeChecker > 2.0f)
                 {
                     Time.timeScale = 1.0f;
                     lastChance = true;
@@ -456,7 +453,21 @@ public class PlayerController : MonoBehaviour
         }
 
     }
-
+    private IEnumerator UpdateState()
+    {
+        while (true)
+        {
+            UpdateLifeImage();
+            UpdateSpellImage();
+            UpdatePower();
+            UpdateHighScoreText();
+            UpdateScoreText();
+            UpdateGrazeText();
+            UpdatePointItemText();
+            UpdateTimeText();
+            yield return delay;
+        }
+    }
     private IEnumerator ShootCoroutine()
     {
         while (true)
@@ -469,27 +480,29 @@ public class PlayerController : MonoBehaviour
             }
 
             //0.5초 대기
-            yield return new WaitForSeconds(0.1f);
+            yield return delay;
         }
     }
 
+    // 계속 new 선언을 막기위한 변수
+    private WaitForSeconds DeathSeconds = new WaitForSeconds(4.0f);
     private IEnumerator HitAfterDelay()
     {
         //playerHitOn = true;
         immortalTime = true;
-        yield return new WaitForSeconds(4.0f);
+        yield return DeathSeconds;
         immortalTime = false;
     }
 
+    private WaitForSeconds SpwanSeconds = new WaitForSeconds(0.01f);
     private IEnumerator DeSpwanPlayer(GameObject target)
     {
-        for (int i = 100; i == 0; i--)
+        for (int i = 0; i < 100; i++)
         {
-            yield return new WaitForSeconds(0.01f);
+            yield return SpwanSeconds;
             Util.ImageAlphaChange(target, 0.01f * i);
         }
         IsLifeLeft();
-
     }
     private IEnumerator ReSpawnPlayer(GameObject target)
     {
@@ -497,7 +510,7 @@ public class PlayerController : MonoBehaviour
         gameObject.transform.localPosition = ReSpawnPoint;
         for (int i = 0; i < 100; i++)
         {
-            yield return new WaitForSeconds(0.01f);
+            yield return SpwanSeconds;
             Util.ImageAlphaChange(target, 0.01f * i);
         }
         spell = 3;

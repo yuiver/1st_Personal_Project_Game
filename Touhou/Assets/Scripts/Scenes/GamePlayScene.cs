@@ -6,11 +6,7 @@ using static UnityEngine.UI.Image;
 
 public class GamePlayScene : BaseScene
 {
-    #region variable
-    //탄환의 추척을 위해 만든 변수 private로 교체할것
-    public static GameObject target;
-    public static GameObject origin;
-    public GameObject instance;
+    #region Position
     Vector3 bossInstPoint = new Vector3(606, 348, 100);
     Vector3 instPointTopLeft = new Vector3(603.58f, 348.08f, 100.00f);
     Vector3 instPointTopMidLeft = new Vector3(606.06f, 348.08f, 100.00f);
@@ -34,8 +30,13 @@ public class GamePlayScene : BaseScene
     Vector3 instPointRight05 = new Vector3(612.47f, 345.16f, 100.00f);
     Vector3 instPointRight06 = new Vector3(612.47f, 344.66f, 100.00f);
     Vector3 instPointRight07 = new Vector3(612.47f, 344.16f, 100.00f);
+    #endregion
 
-
+    #region variable
+    //탄환의 추척을 위해 만든 변수 private로 교체할것
+    public static GameObject target;
+    public static GameObject origin;
+    public GameObject instance;
 
     //인게임 정지키로 호출하는 메뉴를 컨트롤 하기위한 변수
     public GameObject escMenu;
@@ -90,6 +91,18 @@ public class GamePlayScene : BaseScene
 
     private float enemySpeed = 3.0f;
     private float bossSpeed = 1.5f;
+
+
+    // 코루틴을 돌릴때 WaitForSeconds를 계속 새로 new로 호출하면 GC를 호출해서 장기적으로 게임 퍼포먼스를 떨어뜨릴수 있어서 변수화시킨 WaitForSeconds를 사용
+    private WaitForSeconds halfSeconds = new WaitForSeconds(0.5f);
+    private WaitForSeconds oneSeconds = new WaitForSeconds(1.0f);
+    private WaitForSeconds oneHalfSeconds = new WaitForSeconds(1.5f);
+    private WaitForSeconds twoSeconds = new WaitForSeconds(2.0f);
+    private WaitForSeconds twoHalfSeconds = new WaitForSeconds(2.5f);
+    private WaitForSeconds threeSeconds = new WaitForSeconds(3.0f);
+    private WaitForSeconds fourSeconds = new WaitForSeconds(4.0f);
+    private WaitForSeconds fiveSeconds = new WaitForSeconds(5.0f);
+
     #endregion
 
 
@@ -364,7 +377,7 @@ public class GamePlayScene : BaseScene
         //{
         //    if (Define.CAN_RETRY_COUNT > deathCount)
         //    {
-        //        //대충 보스를 제외한걸 오프하고 뒤진 패널티를 적용하고 부활핞다. 
+        //        //대충 보스를 제외한걸 오프하고 사망 패널티를 적용하고 부활핞다. 
         //    }
         //    else
         //    {
@@ -378,25 +391,25 @@ public class GamePlayScene : BaseScene
         yield return new WaitForSeconds(3.0f);
         for (int i = 0; i < 7; i++)
         {
-            yield return new WaitForSeconds(0.5f);
+            yield return halfSeconds;
             StartCoroutine(EnemySpawn(new Vector2(1, -1), instPointTopLeft));
         }
         yield return new WaitForSeconds(2.0f);
         for (int i = 0; i < 7; i++)
         {
-            yield return new WaitForSeconds(0.5f);
+            yield return halfSeconds;
             StartCoroutine(EnemySpawn(new Vector2(-1, -1), instPointTopRight));
         }
         yield return new WaitForSeconds(2.0f);
         for (int i = 0; i < 7; i++)
         {
-            yield return new WaitForSeconds(0.5f);
+            yield return halfSeconds;
             StartCoroutine(EnemySpawn(new Vector2(0, -1), instPointTopMidLeft));
             StartCoroutine(EnemySpawn(new Vector2(0, -1), instPointTopMidRight));
         }
         for (int i = 0; i < 7; i++)
         {
-            yield return new WaitForSeconds(0.5f);
+            yield return halfSeconds;
             StartCoroutine(EnemySpawn(new Vector2(1, -1), instPointTopLeft));
             StartCoroutine(EnemySpawn(new Vector2(-1, -1), instPointTopRight));
         }
@@ -785,7 +798,7 @@ public class GamePlayScene : BaseScene
     }
     private IEnumerator BossClear()
     {
-        yield return new WaitForSeconds(5.0f);
+        yield return fiveSeconds;
         stageClear.SetActive(true);
     }
 

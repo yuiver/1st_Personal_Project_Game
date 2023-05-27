@@ -9,14 +9,19 @@ public class CountFpsController : MonoBehaviour
     public float width = default;
     public float height = default;
 
+    private bool guiOn = false;
     private float waitOneSecond = default;
     private float fps = default;
 
     private void Awake()
     {
-        DontDestroyOnLoad(this.gameObject);
-        //waitOneSecond의 초기값 설정
-        waitOneSecond = 1;
+        if (guiOn == false)
+        {
+            guiOn = true;
+            DontDestroyOnLoad(this.gameObject);
+            //waitOneSecond의 초기값 설정
+            waitOneSecond = 1;
+        }
     }
 
     void OnGUI()

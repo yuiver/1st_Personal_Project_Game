@@ -19,9 +19,14 @@ public abstract class BaseScene : MonoBehaviour
     protected virtual void Init()
     {
         Object obj = GameObject.FindObjectOfType(typeof(EventSystem));
+        Object fpsController = GameObject.FindObjectOfType(typeof(CountFpsController));
         if (obj == null)
         {
             Managers.Resource.Instantiate("UI/EventSystem").name = "@EventSystem"; 
+        }
+        if (fpsController == null)
+        {
+            Managers.Resource.Instantiate("FpsCounter").name = "@FpsCounter";
         }
 
         Time.timeScale = 1.0f;
